@@ -3,9 +3,6 @@ import { existsSync } from 'fs';
 import { join, parse } from 'path';
 import { env } from 'process';
 
-import shellescape from 'shell-escape';
-import { trim } from 'lodash';
-
 /**
  * Represents the type of media for an input file.
  */
@@ -90,6 +87,7 @@ export interface SublerStruct {
 /** Subler */
 export class Subler {
 
+    /** Subler */
     private subler: SublerStruct;
 
     /**
@@ -157,13 +155,13 @@ export class Subler {
         const atoms = this.subler.atoms.args();
 
         /** Escaped Dest */
-        const escapedSource = this.subler.source.replace(/\s/g, '\\ ');
+        const escapedSource = this.subler.source.replace(/\s|&|'/g, '\\$&');
 
         /** Arguments */
         const args = [ '-source', escapedSource ];
 
         /** Escaped Dest */
-        const escapedDest = dest.replace(/\s/g, '\\ ');
+        const escapedDest = dest.replace(/\s|&|'/g, '\\$&');
 
         args.push(...[ '-dest', escapedDest ]);
 
@@ -303,7 +301,7 @@ export class Atom {
     /** Argument */
     public arg(): string {
         /** Escaped Value */
-        let escapedValue = trim(shellescape([ this.atom.value ]).split(/\n/g).filter(value => !(value.trim() === '')).map(value => value.trim()).join(' '), '\'');
+        let escapedValue = this.atom.value.replace(/[\n|\r]+/g, ' ').replace(/'/g, '\\$&');
 
         if (this.atom.tag !== AtomTag.artwork) escapedValue = `'${escapedValue}'`;
 
