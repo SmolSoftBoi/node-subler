@@ -2,8 +2,8 @@ import { join } from 'path';
 import { Atoms, MediaKind, Subler } from './subler';
 
 describe(Subler, () => {
-    it('Should contain `demo.mp4`.', function () {
-        const file = join(__dirname, 'demo.mp4');
+    it('Should contain `test.mp4`.', function () {
+        const file = join(__dirname, 'test.mp4');
         const tagCommand = new Subler(file, new Atoms().add('Title', 'Foo Bar Title')).buildTagCommand();
 
         expect(tagCommand.args).toContain(file);
@@ -11,7 +11,7 @@ describe(Subler, () => {
 
     describe(Subler.prototype.mediaKind, () => {
         it('Should be an instance of `Subler`.', function () {
-            const mediaKind = new Subler('demo.mp4', new Atoms().add('Title', 'Foo Bar Title')).mediaKind(MediaKind.MOVIE);
+            const mediaKind = new Subler('test.mp4', new Atoms().add('Title', 'Foo Bar Title')).mediaKind(MediaKind.MOVIE);
 
             expect(mediaKind).toBeInstanceOf(Subler);
         });
@@ -19,9 +19,30 @@ describe(Subler, () => {
 
     describe(Subler.prototype.dest, () => {
         it('Should be an instance of `Subler`.', function () {
-            const mediaKind = new Subler('demo.mp4', new Atoms().add('Title', 'Foo Bar Title')).dest('dest/path');
+            const mediaKind = new Subler('test.mp4', new Atoms().add('Title', 'Foo Bar Title')).dest('dest/path');
 
             expect(mediaKind).toBeInstanceOf(Subler);
+        });
+
+        it('Should contain `dest/path`.', function () {
+            const file = join(__dirname, 'test.mp4');
+            const tagCommand = new Subler(file, new Atoms().add('Title', 'Foo Bar Title')).dest('dest/path').buildTagCommand();
+    
+            expect(tagCommand.args).toContain('dest/path');
+        });
+
+        it('Should contain `dest\\ \\&\\ path`.', function () {
+            const file = join(__dirname, 'test.mp4');
+            const tagCommand = new Subler(file, new Atoms().add('Title', 'Foo Bar Title')).dest('dest & path').buildTagCommand();
+    
+            expect(tagCommand.args).toContain('dest\\ \\&\\ path');
+        });
+        
+        it('Should contain `dest\\\'s\\ path`.', function () {
+            const file = join(__dirname, 'test.mp4');
+            const tagCommand = new Subler(file, new Atoms().add('Title', 'Foo Bar Title')).dest('dest\'s path').buildTagCommand();
+    
+            expect(tagCommand.args).toContain('dest\\\'s\\ path');
         });
     });
 });
@@ -59,6 +80,13 @@ describe(Atoms, () => {
             const arg = atoms.inner[0].arg();
 
             expect(arg).toEqual('{\'Cast\':\'John Doe\'}');
+        });
+
+        it('Should equal `{\'Cast\':\'John\\\'s Doe\'}`.', function () {
+            const atoms = new Atoms().add('Cast', 'John\'s Doe');
+            const arg = atoms.inner[0].arg();
+
+            expect(arg).toEqual('{\'Cast\':\'John\\\'s Doe\'}');
         });
     });
 
