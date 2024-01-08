@@ -1,4 +1,4 @@
-# Node Subler
+# ![Node Subler](https://raw.githubusercontent.com/smolsoftboi/node-subler/master/assets/logo.png)
 
 A simple interface for the Subler tool on macOS to write metadata to media files.
 
