@@ -24,7 +24,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.13",
     "@types/lodash": "^4.17.7",
     "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
