@@ -5,7 +5,7 @@ A simple interface for the Subler tool on macOS to write metadata to media files
 ## Installation
 
 Requires an additional [SublerCLI](https://bitbucket.org/galad87/sublercli) installation.
-To install with [Homebrew](https://brew.sh): `brew cask install sublercli`
+To install with [Homebrew](https://brew.sh): `brew install --cask sublercli`
 
 By default `Subler` assumes a `homebrew` installation under `/usr/local/bin/SublerCli`.
 You can check your installtion path with `brew cask info sublercli`.
