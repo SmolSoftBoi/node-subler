@@ -8,7 +8,7 @@ Requires an additional [SublerCLI](https://bitbucket.org/galad87/sublercli) inst
 To install with [Homebrew](https://brew.sh): `brew cask install sublercli`
 
 By default `Subler` assumes a `homebrew` installation under `/usr/local/bin/SublerCli`.
-You can check your installtion path with `brew cask info sublercli`.
+You can check your installation path with `brew info --cask sublercli`.
 If the Subler installation destination deviates from default, you can overwerite the path by setting the `SUBLER_CLI_PATH` environment variable to the valid destination.
 
 ## Atoms
