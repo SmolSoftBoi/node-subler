@@ -301,7 +301,7 @@ export class Atom {
     /** Argument */
     public arg(): string {
         /** Escaped Value */
-        let escapedValue = this.atom.value.replace(/[\n|\r]+/g, ' ').replace(/'/g, '\\$&');
+        let escapedValue = this.atom.value.replace(/[\n|\r]+/g, ' ').replace(/\\/g, '\\\\').replace(/'/g, '\\$&');
 
         if (this.atom.tag !== AtomTag.artwork) escapedValue = `'${escapedValue}'`;
 
