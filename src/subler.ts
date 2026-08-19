@@ -126,9 +126,7 @@ export class Subler {
         /** Command */
         const command = this.buildTagCommand();
 
-        return spawn(`${command.command} ${command.args.join(' ')}`, {
-            shell: true
-        });
+        return spawn(command.command, command.args);
     }
 
     /**
@@ -154,16 +152,10 @@ export class Subler {
         /** Atoms */
         const atoms = this.subler.atoms.args();
 
-        /** Escaped Dest */
-        const escapedSource = this.subler.source.replace(/\s|&|'/g, '\\$&');
-
         /** Arguments */
-        const args = [ '-source', escapedSource ];
+        const args = [ '-source', this.subler.source ];
 
-        /** Escaped Dest */
-        const escapedDest = dest.replace(/\s|&|'/g, '\\$&');
-
-        args.push(...[ '-dest', escapedDest ]);
+        args.push(...[ '-dest', dest ]);
 
         /** Meta Tags */
         const metaTags = atoms;
@@ -189,9 +181,7 @@ export class Subler {
         /** Command */
         const cmd = this.buildTagCommand();
 
-        return spawnSync(`${cmd.command} ${cmd.args.join(' ')}`, {
-            shell: true
-        });
+        return spawnSync(cmd.command, cmd.args);
     }
 
     /**
@@ -300,12 +290,13 @@ export class Atom {
 
     /** Argument */
     public arg(): string {
-        /** Escaped Value */
-        let escapedValue = this.atom.value.replace(/[\n|\r]+/g, ' ').replace(/\\/g, '\\\\').replace(/'/g, '\\$&');
+        /** Normalised Value */
+        const normalisedValue = this.atom.value.replace(/[\n|\r]+/g, ' ').replace(/\\/g, '\\\\').replace(/'/g, '\\$&');
 
-        if (this.atom.tag !== AtomTag.artwork) escapedValue = `'${escapedValue}'`;
+        /** Value */
+        const value = this.atom.tag !== AtomTag.artwork ? `'${normalisedValue}'` : normalisedValue;
 
-        return `{'${this.atom.tag}':${escapedValue}}`;
+        return `{'${this.atom.tag}':${value}}`;
     }
 }
 
